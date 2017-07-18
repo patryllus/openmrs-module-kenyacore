@@ -23,11 +23,16 @@ import org.openmrs.Patient;
 import org.openmrs.Program;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
+import org.openmrs.calculation.patient.PatientCalculation;
+import org.openmrs.calculation.patient.PatientCalculationService;
+import org.openmrs.calculation.result.CalculationResult;
+import org.openmrs.calculation.result.ResultUtil;
 import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.module.htmlformentry.HtmlFormEntryUtil;
 import org.openmrs.module.htmlformentry.handler.TagHandler;
 import org.openmrs.module.kenyacore.ContentManager;
 import org.openmrs.module.kenyacore.CoreUtils;
+import org.openmrs.module.kenyacore.calculation.CalculationUtils;
 import org.openmrs.module.kenyacore.form.FormDescriptor.Gender;
 import org.openmrs.module.kenyacore.program.ProgramDescriptor;
 import org.openmrs.module.kenyacore.program.ProgramManager;
@@ -302,9 +307,29 @@ public class FormManager implements ContentManager {
 					continue;
 			}
 
+			if (descriptor.getEligibilityCalculation() != null && !isPatientEligibleFor(patient, descriptor)) {
+				continue;
+			}
+
 			filtered.add(descriptor);
 		}
 
 		return filtered;
+	}
+
+	/**
+	 *
+	 * @param patient
+	 * @param descriptor
+	 * @return
+	 */
+	public boolean isPatientEligibleFor(Patient patient, FormDescriptor descriptor) {
+
+		Class<? extends PatientCalculation> clazz = descriptor.getEligibilityCalculation();
+
+		PatientCalculation calculation = CalculationUtils.instantiateCalculation(clazz, null);
+
+		CalculationResult result = Context.getService(PatientCalculationService.class).evaluate(patient.getId(), calculation);
+		return ResultUtil.isTrue(result);
 	}
 }

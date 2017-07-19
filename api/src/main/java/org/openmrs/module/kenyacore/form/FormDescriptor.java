@@ -15,6 +15,7 @@
 package org.openmrs.module.kenyacore.form;
 
 import org.openmrs.Form;
+import org.openmrs.calculation.patient.PatientCalculation;
 import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.module.kenyacore.AbstractEntityDescriptor;
 import org.openmrs.module.kenyacore.app.AppRestrictedDescriptor;
@@ -45,6 +46,8 @@ public class FormDescriptor extends AbstractEntityDescriptor<Form> implements Ap
 	private UiResource icon;
 
 	private UiResource htmlform;
+
+	private Class<? extends PatientCalculation> eligibilityCalculation;
 
 	/**
 	 * @see org.openmrs.module.kenyacore.AbstractEntityDescriptor#getTarget()
@@ -132,5 +135,21 @@ public class FormDescriptor extends AbstractEntityDescriptor<Form> implements Ap
 	 */
 	public void setHtmlform(UiResource htmlform) {
 		this.htmlform = htmlform;
+	}
+
+	/**
+	 * Gets the eligibility calculation class
+	 * @return the eligibility calculation class
+	 */
+	public Class<? extends PatientCalculation> getEligibilityCalculation() {
+		return eligibilityCalculation;
+	}
+
+	/**
+	 * Sets the eligibility calculation class
+	 * @param eligibilityCalculation the eligibility calculation class
+	 */
+	public void setEligibilityCalculation(Class<? extends PatientCalculation> eligibilityCalculation) {
+		this.eligibilityCalculation = eligibilityCalculation;
 	}
 }

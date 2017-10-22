@@ -307,7 +307,7 @@ public class FormManager implements ContentManager {
 					continue;
 			}
 
-			if (descriptor.getEligibilityCalculation() != null && !isPatientEligibleFor(patient, descriptor)) {
+			if (descriptor.getShowIfCalculation() != null && !isPatientEligibleFor(patient, descriptor)) {
 				continue;
 			}
 
@@ -325,7 +325,7 @@ public class FormManager implements ContentManager {
 	 */
 	public boolean isPatientEligibleFor(Patient patient, FormDescriptor descriptor) {
 
-		Class<? extends PatientCalculation> clazz = descriptor.getEligibilityCalculation();
+		Class<? extends PatientCalculation> clazz = descriptor.getShowIfCalculation();
 
 		PatientCalculation calculation = CalculationUtils.instantiateCalculation(clazz, null);
 

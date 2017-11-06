@@ -15,6 +15,7 @@
 package org.openmrs.module.kenyacore.form;
 
 import org.openmrs.Form;
+import org.openmrs.calculation.patient.PatientCalculation;
 import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.module.kenyacore.AbstractEntityDescriptor;
 import org.openmrs.module.kenyacore.app.AppRestrictedDescriptor;
@@ -36,6 +37,8 @@ public class FormDescriptor extends AbstractEntityDescriptor<Form> implements Ap
 		BOTH, MALE, FEMALE
 	}
 
+	private Class<? extends PatientCalculation> showIfCalculation;
+
 	private Set<AppDescriptor> apps;
 
 	private Gender gender = Gender.BOTH;
@@ -45,6 +48,7 @@ public class FormDescriptor extends AbstractEntityDescriptor<Form> implements Ap
 	private UiResource icon;
 
 	private UiResource htmlform;
+
 
 	/**
 	 * @see org.openmrs.module.kenyacore.AbstractEntityDescriptor#getTarget()
@@ -69,6 +73,23 @@ public class FormDescriptor extends AbstractEntityDescriptor<Form> implements Ap
 	public void setApps(Set<AppDescriptor> apps) {
 		this.apps = apps;
 	}
+
+	/**
+	 * Gets the eligibility calculation class
+	 * @return the eligibility calculation class
+	 */
+	public Class<? extends PatientCalculation> getShowIfCalculation() {
+		return showIfCalculation;
+	}
+
+	/**
+	 * Sets the eligibility calculation class
+	 * @param showIfCalculation the eligibility calculation class
+	 */
+	public void setShowIfCalculation(Class<? extends PatientCalculation> showIfCalculation) {
+		this.showIfCalculation = showIfCalculation;
+	}
+
 
 	/**
 	 * Gets the gender usage
@@ -133,4 +154,6 @@ public class FormDescriptor extends AbstractEntityDescriptor<Form> implements Ap
 	public void setHtmlform(UiResource htmlform) {
 		this.htmlform = htmlform;
 	}
+
+
 }

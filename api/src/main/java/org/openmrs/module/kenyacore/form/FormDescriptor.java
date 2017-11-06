@@ -37,6 +37,8 @@ public class FormDescriptor extends AbstractEntityDescriptor<Form> implements Ap
 		BOTH, MALE, FEMALE
 	}
 
+	private Class<? extends PatientCalculation> showIfCalculation;
+
 	private Set<AppDescriptor> apps;
 
 	private Gender gender = Gender.BOTH;
@@ -47,7 +49,6 @@ public class FormDescriptor extends AbstractEntityDescriptor<Form> implements Ap
 
 	private UiResource htmlform;
 
-	private Class<? extends PatientCalculation> eligibilityCalculation;
 
 	/**
 	 * @see org.openmrs.module.kenyacore.AbstractEntityDescriptor#getTarget()
@@ -72,6 +73,23 @@ public class FormDescriptor extends AbstractEntityDescriptor<Form> implements Ap
 	public void setApps(Set<AppDescriptor> apps) {
 		this.apps = apps;
 	}
+
+	/**
+	 * Gets the eligibility calculation class
+	 * @return the eligibility calculation class
+	 */
+	public Class<? extends PatientCalculation> getShowIfCalculation() {
+		return showIfCalculation;
+	}
+
+	/**
+	 * Sets the eligibility calculation class
+	 * @param showIfCalculation the eligibility calculation class
+	 */
+	public void setShowIfCalculation(Class<? extends PatientCalculation> showIfCalculation) {
+		this.showIfCalculation = showIfCalculation;
+	}
+
 
 	/**
 	 * Gets the gender usage
@@ -137,19 +155,5 @@ public class FormDescriptor extends AbstractEntityDescriptor<Form> implements Ap
 		this.htmlform = htmlform;
 	}
 
-	/**
-	 * Gets the eligibility calculation class
-	 * @return the eligibility calculation class
-	 */
-	public Class<? extends PatientCalculation> getEligibilityCalculation() {
-		return eligibilityCalculation;
-	}
 
-	/**
-	 * Sets the eligibility calculation class
-	 * @param eligibilityCalculation the eligibility calculation class
-	 */
-	public void setEligibilityCalculation(Class<? extends PatientCalculation> eligibilityCalculation) {
-		this.eligibilityCalculation = eligibilityCalculation;
-	}
 }

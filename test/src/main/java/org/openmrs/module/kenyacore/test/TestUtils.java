@@ -27,6 +27,7 @@ import org.openmrs.LocationAttribute;
 import org.openmrs.LocationAttributeType;
 import org.openmrs.Obs;
 import org.openmrs.Order;
+import org.openmrs.OrderFrequency;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
@@ -220,7 +221,7 @@ public class TestUtils {
 	 * @param start the start date
 	 * @param end the end date
 	 * @return the drug order
-	 */
+	 *//*
 	public static DrugOrder saveDrugOrder(Patient patient, Concept concept, Date start, Date end) {
 
 		CareSetting outpatient = Context.getOrderService().getCareSettingByName("OUTPATIENT");
@@ -235,6 +236,73 @@ public class TestUtils {
 		order.setOrderer(provider.get(0));
 		order.setConcept(concept);
 		order.setDateActivated(start);
+
+		if (end != null) {
+			order.setAction(Order.Action.DISCONTINUE);
+		}
+
+		OrderContext orderContext = new OrderContext();
+		orderContext.setCareSetting(outpatient);
+		orderContext.setOrderType(drugOrderType);
+		return (DrugOrder) Context.getOrderService().saveOrder(order, orderContext);
+	}*/
+
+	/**
+	 * Saves a drug order
+	 * @param patient the patient
+	 * @param concept the drug concept
+	 * @param start the start date
+	 * @param end the end date
+	 * @return the drug order
+	 */
+	public static DrugOrder saveDrugOrder(Patient patient, Concept concept, Date start, Date end) {
+
+		CareSetting outpatient = Context.getOrderService().getCareSettingByName("OUTPATIENT");
+		OrderType drugOrderType = Context.getOrderService().getOrderTypeByUuid(OrderType.DRUG_ORDER_TYPE_UUID);
+
+		DrugOrder order = new DrugOrder();
+		order.setPatient(patient);
+		List<Provider> provider = (List<Provider>) Context.getProviderService().getProvidersByPerson(Context.getUserService().getUser(1).getPerson());
+		Encounter e = Context.getEncounterService().getEncounter(3);
+		order.setEncounter(e);
+		order.setOrderer(provider.get(0));
+		order.setConcept(concept);
+		order.setDateActivated(start);
+		order.setDose(2.0);
+		order.setDoseUnits(Context.getConceptService().getConcept(51));
+		order.setRoute(Context.getConceptService().getConcept(22));
+		OrderFrequency orderFrequency = Context.getOrderService().getOrderFrequency(1);
+		order.setFrequency(orderFrequency);
+
+
+		if (end != null) {
+			order.setAction(Order.Action.DISCONTINUE);
+		}
+
+		OrderContext orderContext = new OrderContext();
+		orderContext.setCareSetting(outpatient);
+		orderContext.setOrderType(drugOrderType);
+		return (DrugOrder) Context.getOrderService().saveOrder(order, orderContext);
+	}
+
+	public static DrugOrder saveDrugOrder(Patient patient, Concept concept, Date start, Date end, Encounter encounter) {
+
+		CareSetting outpatient = Context.getOrderService().getCareSettingByName("OUTPATIENT");
+		OrderType drugOrderType = Context.getOrderService().getOrderTypeByUuid(OrderType.DRUG_ORDER_TYPE_UUID);
+
+		DrugOrder order = new DrugOrder();
+		order.setPatient(patient);
+		List<Provider> provider = (List<Provider>) Context.getProviderService().getProvidersByPerson(Context.getUserService().getUser(1).getPerson());
+		order.setEncounter(encounter);
+		order.setOrderer(provider.get(0));
+		order.setConcept(concept);
+		order.setDateActivated(start);
+		order.setDose(2.0);
+		order.setDoseUnits(Context.getConceptService().getConcept(51));
+		order.setRoute(Context.getConceptService().getConcept(22));
+		OrderFrequency orderFrequency = Context.getOrderService().getOrderFrequency(1);
+		order.setFrequency(orderFrequency);
+
 
 		if (end != null) {
 			order.setAction(Order.Action.DISCONTINUE);

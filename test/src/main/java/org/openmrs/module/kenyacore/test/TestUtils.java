@@ -21,6 +21,7 @@ import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Form;
+import org.openmrs.FreeTextDosingInstructions;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
@@ -41,6 +42,7 @@ import org.openmrs.Program;
 import org.openmrs.Provider;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
+import org.openmrs.SimpleDosingInstructions;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
 import org.openmrs.api.OrderContext;
@@ -57,6 +59,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Utility methods for unit tests
@@ -283,6 +287,34 @@ public class TestUtils {
 		orderContext.setCareSetting(outpatient);
 		orderContext.setOrderType(drugOrderType);
 		return (DrugOrder) Context.getOrderService().saveOrder(order, orderContext);
+	}
+
+	/**
+	 * Saves a drug order
+	 * @param patient the patient
+	 * @param
+	 * @param start the start date
+	 * @param end the end date
+	 * @return the drug order
+	 */
+	public static DrugOrder saveDrugOrder(Patient patient, Concept conceptOrdered, Concept doseUnit, Date start, Date end, Encounter encounter) {
+
+		OrderType drugOrderType = Context.getOrderService().getOrderTypeByUuid(OrderType.DRUG_ORDER_TYPE_UUID);
+		CareSetting careSetting = Context.getOrderService().getCareSetting(2);
+		//place drug order
+		DrugOrder order = new DrugOrder();/*
+		Encounter encounter = encounterService.getEncounter(3);*/
+		order.setEncounter(encounter);
+		order.setPatient(patient);
+		order.setConcept(conceptOrdered);
+		order.setCareSetting(careSetting);
+		order.setOrderer(Context.getProviderService().getProvider(1));
+		order.setDateActivated(start);
+		order.setOrderType(drugOrderType);
+		order.setDosingType(FreeTextDosingInstructions.class);
+		order.setInstructions("None");
+		order.setDosingInstructions("Test Instruction");
+		return (DrugOrder) Context.getOrderService().saveOrder(order, null);
 	}
 
 	public static DrugOrder saveDrugOrder(Patient patient, Concept concept, Date start, Date end, Encounter encounter) {

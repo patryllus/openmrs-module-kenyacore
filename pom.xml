@@ -38,7 +38,7 @@
 		<idgenVersion>2.6</idgenVersion>
 		<metadatadeployVersion>1.2</metadatadeployVersion>
 		<metadatasharingVersion>1.1.8</metadatasharingVersion>
-		<reportingVersion>0.9.9</reportingVersion>
+		<reportingVersion>0.9.8.1</reportingVersion>
 		<serializationxstreamVersion>0.2.7</serializationxstreamVersion>
 		<uiframeworkVersion>3.8</uiframeworkVersion>
 

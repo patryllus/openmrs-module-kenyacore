@@ -317,6 +317,33 @@ public class TestUtils {
 		return (DrugOrder) Context.getOrderService().saveOrder(order, null);
 	}
 
+	/**
+	 * Saves a drug order
+	 * @param patient the patient
+	 * @param
+	 * @param start the start date
+	 * @param end the end date
+	 * @return the drug order
+	 */
+	public static DrugOrder saveDrugOrderWithFreeTestInstructions(Patient patient, Concept conceptOrdered, Date start, Encounter encounter) {
+
+		OrderType drugOrderType = Context.getOrderService().getOrderTypeByUuid(OrderType.DRUG_ORDER_TYPE_UUID);
+		CareSetting careSetting = Context.getOrderService().getCareSetting(2);
+		//place drug order
+		DrugOrder order = new DrugOrder();
+		order.setEncounter(encounter);
+		order.setPatient(patient);
+		order.setConcept(conceptOrdered);
+		order.setCareSetting(careSetting);
+		order.setOrderer(Context.getProviderService().getProvider(1));
+		order.setDateActivated(start);
+		order.setOrderType(drugOrderType);
+		order.setDosingType(FreeTextDosingInstructions.class);
+		order.setInstructions("None");
+		order.setDosingInstructions("Test Instruction");
+		return (DrugOrder) Context.getOrderService().saveOrder(order, null);
+	}
+
 	public static DrugOrder saveDrugOrder(Patient patient, Concept concept, Date start, Date end, Encounter encounter) {
 
 		CareSetting outpatient = Context.getOrderService().getCareSettingByName("OUTPATIENT");
